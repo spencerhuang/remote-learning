@@ -87,4 +87,4 @@ else:
     elif page == "Logout":
         st.session_state.authenticated = False
         st.session_state.user = None
-        st.experimental_rerun()
+        st.rerun()
