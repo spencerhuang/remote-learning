@@ -1,5 +1,4 @@
 import streamlit as st
-import pandas as pd
 
 # Simulate user authentication
 if "authenticated" not in st.session_state:
@@ -10,16 +9,17 @@ if "user" not in st.session_state:
 # Dummy user database
 users = {"admin": "password", "student1": "learn123"}
 
-# Simulate a course database
-courses = {
-    "Python for Beginners": {"description": "Learn Python from scratch!", "enrolled": []},
-    "AI Ethics": {"description": "Understand AI's ethical implications.", "enrolled": []},
-    "Product Management 101": {"description": "Master the fundamentals of PM.", "enrolled": []},
-}
+# Simulated course catalog
+if "courses" not in st.session_state:
+    st.session_state.courses = {
+        "Python for Beginners": {"description": "Learn Python from scratch!", "enrolled": set()},
+        "AI Ethics": {"description": "Understand AI's ethical implications.", "enrolled": set()},
+        "Product Management 101": {"description": "Master the fundamentals of PM.", "enrolled": set()},
+    }
 
-# Dummy discussion storage
+# Ensure discussions persist
 if "discussions" not in st.session_state:
-    st.session_state.discussions = {course: [] for course in courses}
+    st.session_state.discussions = {course: [] for course in st.session_state.courses}
 
 # ------------------------ AUTHENTICATION ------------------------
 def login():
@@ -31,21 +31,23 @@ def login():
             st.session_state.authenticated = True
             st.session_state.user = username
             st.sidebar.success(f"Welcome, {username}!")
+            st.experimental_rerun()
         else:
             st.sidebar.error("Invalid credentials")
 
 # ------------------------ COURSE CATALOG ------------------------
 def show_courses():
     st.header("📚 Course Catalog")
-    for course, details in courses.items():
+    for course, details in st.session_state.courses.items():
         st.subheader(course)
         st.write(details["description"])
         if st.session_state.user in details["enrolled"]:
             st.success("✅ Enrolled")
         else:
-            if st.button(f"Enroll in {course}", key=course):
-                courses[course]["enrolled"].append(st.session_state.user)
-                st.success(f"Enrolled in {course}")
+            if st.button(f"Enroll in {course}", key=f"enroll_{course}"):
+                st.session_state.courses[course]["enrolled"].add(st.session_state.user)
+                st.success(f"✅ Enrolled in {course}")
+                st.experimental_rerun()  # Force UI update
 
 # ------------------------ DISCUSSION SECTION ------------------------
 def show_discussion(course_name):
@@ -61,7 +63,7 @@ def show_discussion(course_name):
 # ------------------------ USER DASHBOARD ------------------------
 def show_dashboard():
     st.header("📊 Your Learning Dashboard")
-    enrolled_courses = [c for c in courses if st.session_state.user in courses[c]["enrolled"]]
+    enrolled_courses = [c for c in st.session_state.courses if st.session_state.user in st.session_state.courses[c]["enrolled"]]
     if enrolled_courses:
         for course in enrolled_courses:
             st.subheader(course)
