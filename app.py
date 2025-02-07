@@ -19,9 +19,9 @@ if "courses" not in st.session_state:
 
 # YouTube videos for each course
 video_urls = {
-    "Scripts for Viral Video in Social Media": "https://www.youtube.com/watch?v=xyz123",
-    "Cinematography Basics Using Smartphone": "https://www.youtube.com/watch?v=abc456",
-    "Video Editing for Viral Video in Social Media": "https://www.youtube.com/watch?v=def789",
+    "Scripts for Viral Video in Social Media": "https://www.youtube.com/watch?v=baZq1WVgwgc",
+    "Cinematography Basics Using Smartphone": "https://www.youtube.com/watch?v=4LDbloNewgk",
+    "Video Editing for Viral Video in Social Media": "https://www.youtube.com/watch?v=R9Uu0JtvyMg",
 }
 
 # Ensure discussions persist with mock comments
