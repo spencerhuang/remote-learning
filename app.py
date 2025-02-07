@@ -9,24 +9,37 @@ if "user" not in st.session_state:
 # Dummy user database
 users = {"admin": "password", "student1": "learn123"}
 
-# Simulated course catalog
+# Simulated course catalog with new course names
 if "courses" not in st.session_state:
     st.session_state.courses = {
-        "Python for Beginners": {"description": "Learn Python from scratch!", "enrolled": set()},
-        "AI Ethics": {"description": "Understand AI's ethical implications.", "enrolled": set()},
-        "Product Management 101": {"description": "Master the fundamentals of PM.", "enrolled": set()},
+        "Scripts for Viral Video in Social Media": {"description": "Learn how to write engaging scripts that go viral!", "enrolled": set()},
+        "Cinematography Basics Using Smartphone": {"description": "Master shooting techniques with just your phone.", "enrolled": set()},
+        "Video Editing for Viral Video in Social Media": {"description": "Learn to edit videos that captivate audiences.", "enrolled": set()},
     }
 
 # YouTube videos for each course
 video_urls = {
-    "Python for Beginners": "https://www.youtube.com/watch?v=eWRfhZUzrAc",
-    "AI Ethics": "https://www.youtube.com/watch?v=aGwYtUzMQUk",
-    "Product Management 101": "https://www.youtube.com/watch?v=bI48pbtMgKE",
+    "Scripts for Viral Video in Social Media": "https://www.youtube.com/watch?v=xyz123",
+    "Cinematography Basics Using Smartphone": "https://www.youtube.com/watch?v=abc456",
+    "Video Editing for Viral Video in Social Media": "https://www.youtube.com/watch?v=def789",
 }
 
-# Ensure discussions persist
+# Ensure discussions persist with mock comments
 if "discussions" not in st.session_state:
-    st.session_state.discussions = {course: [] for course in st.session_state.courses}
+    st.session_state.discussions = {
+        "Scripts for Viral Video in Social Media": [
+            {"user": "Alice", "message": "I love how storytelling impacts engagement!"},
+            {"user": "Bob", "message": "Short scripts with humor seem to perform best."}
+        ],
+        "Cinematography Basics Using Smartphone": [
+            {"user": "Charlie", "message": "Lighting makes a huge difference, even with a phone!"},
+            {"user": "Dana", "message": "Any tips for stabilizing shots without a gimbal?"}
+        ],
+        "Video Editing for Viral Video in Social Media": [
+            {"user": "Eve", "message": "Transitions can really set the mood of the video."},
+            {"user": "Frank", "message": "What’s the best free editing app for beginners?"}
+        ],
+    }
 
 # ------------------------ AUTHENTICATION ------------------------
 def login():
@@ -59,8 +72,12 @@ def show_courses():
 # ------------------------ DISCUSSION SECTION ------------------------
 def show_discussion(course_name):
     st.subheader(f"💬 Discussion for {course_name}")
+
+    # Show mock comments
     for msg in st.session_state.discussions[course_name]:
         st.write(f"👤 {msg['user']}: {msg['message']}")
+
+    # Allow users to add new comments
     new_message = st.text_input("Type a message", key=f"msg_{course_name}")
     if st.button("Send", key=f"send_{course_name}"):
         if new_message:
