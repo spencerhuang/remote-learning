@@ -31,7 +31,7 @@ def login():
             st.session_state.authenticated = True
             st.session_state.user = username
             st.sidebar.success(f"Welcome, {username}!")
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.sidebar.error("Invalid credentials")
 
@@ -47,7 +47,7 @@ def show_courses():
             if st.button(f"Enroll in {course}", key=f"enroll_{course}"):
                 st.session_state.courses[course]["enrolled"].add(st.session_state.user)
                 st.success(f"✅ Enrolled in {course}")
-                st.experimental_rerun()  # Force UI update
+                st.rerun()  # Force UI update
 
 # ------------------------ DISCUSSION SECTION ------------------------
 def show_discussion(course_name):
@@ -58,7 +58,7 @@ def show_discussion(course_name):
     if st.button("Send", key=f"send_{course_name}"):
         if new_message:
             st.session_state.discussions[course_name].append({"user": st.session_state.user, "message": new_message})
-            st.experimental_rerun()
+            st.rerun()
 
 # ------------------------ USER DASHBOARD ------------------------
 def show_dashboard():
