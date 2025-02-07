@@ -17,6 +17,13 @@ if "courses" not in st.session_state:
         "Product Management 101": {"description": "Master the fundamentals of PM.", "enrolled": set()},
     }
 
+# YouTube videos for each course
+video_urls = {
+    "Python for Beginners": "https://www.youtube.com/watch?v=eWRfhZUzrAc",
+    "AI Ethics": "https://www.youtube.com/watch?v=aGwYtUzMQUk",
+    "Product Management 101": "https://www.youtube.com/watch?v=bI48pbtMgKE",
+}
+
 # Ensure discussions persist
 if "discussions" not in st.session_state:
     st.session_state.discussions = {course: [] for course in st.session_state.courses}
@@ -67,6 +74,11 @@ def show_dashboard():
     if enrolled_courses:
         for course in enrolled_courses:
             st.subheader(course)
+
+            # Embed the YouTube video for the course
+            if course in video_urls:
+                st.video(video_urls[course])
+
             show_discussion(course)
     else:
         st.warning("You are not enrolled in any courses.")
